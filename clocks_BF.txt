@@ -1,0 +1,62 @@
+/*
+ID:chenke61
+PROG:subset
+LANG:C++
+*/
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <algorithm>
+#include <stdlib.h>
+#include <fstream>
+using namespace std;
+
+int f[40][782],n,sum;
+
+int dp(int i,int j){
+	if(j<0)
+		return 0;
+	if(f[i][j]!=-1)
+		return f[i][j];
+	if(i<=j)
+		return f[i][j]=dp(i-1,j)+dp(i-1,j-i);
+	else
+		return f[i][j]=dp(i-1,j);
+}
+
+int main(){
+	/*ifstream fin("subset.in");
+	  ofstream fout("subset.out");*/
+	ifstream fin("in");
+	ofstream fout("out");
+
+	fin>>n;
+	sum=n*(n+1)/2;
+	if(sum&1){
+		fout<<0<<endl;
+		return 0;
+	}
+	sum>>1;
+	for(int i=1;i<=n;i++)
+		memset(f[i],-1,sizeof(f[i]));
+	f[1][0]=1;
+	f[1][1]=1;
+	for(int i=2;i<=sum;i++)
+		f[1][i]=0;
+	fout<<dp(n,sum)<<endl;
+	for(int i=1;i<=n;i++){
+		for(int j=0;j<=sum;j++)
+			fout<<f[i][j]<<" ";
+		fout<<endl;
+	}
+
+
+
+
+	return 0;
+}
+
+
+
+
